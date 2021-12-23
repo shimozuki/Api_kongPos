@@ -27,16 +27,17 @@ class Pesanan extends ResourceController
             $model = new PesananModel();
 
             $query = $model->query("SELECT t_penjualan.no_transaksi, t_pengiriman.no_penjualan, t_pengiriman.nama_tujuan, 
-            t_driver.kode_pin, m_user_company.company_id, t_penjualan_detail.* 
+            t_driver.kode_pin, m_user_company.company_id, m_driver.nama_depan, m_driver.hp1, t_penjualan_detail.*
             FROM t_pengiriman 
             INNER JOIN t_penjualan ON t_pengiriman.no_resi= t_penjualan.no_transaksi
             INNER JOIN t_driver ON t_pengiriman.id_driver = t_driver.kd_driver
+            INNER JOIN m_driver ON t_driver.kd_driver = m_driver.kd_driver
             INNER JOIN m_user_company ON t_penjualan.user_id_toko = m_user_company.id
             INNER JOIN t_penjualan_detail ON t_penjualan.no_transaksi= t_penjualan_detail.no_transaksi
-            WHERE t_penjualan.user_id_toko = '$companyid' AND date(t_penjualan.tanggal) BETWEEN '$startdate' AND '$endate' 
+            WHERE t_penjualan.user_id_toko = 10 AND date(t_penjualan.tanggal) BETWEEN '2021/12/20' AND '2021/12/23' 
             AND t_penjualan.status_barang = 4 ");
 
-            if(empty($query)){
+            if(empty($query->getResult())){
                 $respond = [
                     'status' => 500,
                     'error' => true,
