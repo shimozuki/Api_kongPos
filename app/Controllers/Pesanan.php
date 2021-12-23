@@ -68,7 +68,6 @@ class Pesanan extends ResourceController
                            "noHp"         => $query->hp1,
                            "comp_id"      => $query->company_id,
                            "nama_driver"  => $query->nama_depan,
-
                         ]
                     ];
                 return $this->respondCreated($respond);
