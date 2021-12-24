@@ -12,7 +12,7 @@ class Pesanan extends ResourceController
     {
         date_default_timezone_set("Asia/Jakarta");
         $companyid = $this->request->getVar('company_id');
-        $startdate = date('Y-m-d', strtotime("-1 day", strtotime(date("Y-m-d"))));
+        $startdate = date('Y-m-d', strtotime("-2 day", strtotime(date("Y-m-d"))));
         $endate = date("Y-m-d");
 
         if(empty($companyid))
