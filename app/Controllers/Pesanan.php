@@ -34,13 +34,13 @@ class Pesanan extends ResourceController
             INNER JOIN t_driver ON t_pengiriman.id_driver = t_driver.kd_driver
             INNER JOIN m_driver ON t_driver.kd_driver = m_driver.kd_driver
             INNER JOIN m_user_company ON t_penjualan.user_id_toko = m_user_company.id
-            WHERE t_penjualan.user_id_toko = $companyid AND date(t_penjualan.tanggal) BETWEEN '$startdate' AND '$endate'
-            AND t_penjualan.status_barang = 3 ")->getRow();
+            WHERE m_user_company.company_id = '$companyid' AND date(t_penjualan.tanggal) BETWEEN '$startdate' AND '$endate'
+            AND t_penjualan.status_barang = 4 ")->getRow();
 
             if (empty($query)) {
                 $respond = [
-                    'status' => 500,
-                    'error' => true,
+                    'status' => 200,
+                    'error' => false,
                     'messages' => "Sorry Not Found ",
                     'data' => []
                 ];
@@ -57,7 +57,12 @@ class Pesanan extends ResourceController
                     ];
                     return $this->respondCreated($respond);
                 } else {
-                    $pesanan = $model->query("SELECT * FROM t_penjualan_detail WHERE no_transaksi = '$no_transaksi'");
+                    $pesanan = $model->query("SELECT t_penjualan_detail.*, m_barang.kd_barang, m_satuan.kd_satuan
+                    FROM t_penjualan_detail 
+                    INNER JOIN m_barang_satuan ON t_penjualan_detail.item_id = m_barang_satuan.id
+                    INNER JOIN m_barang ON m_barang_satuan.barang_id = m_barang.id
+                    INNER JOIN m_satuan ON m_barang_satuan.satuan_id = m_satuan.id
+                    WHERE t_penjualan_detail.no_transaksi = '$no_transaksi'");
 
                     $respond = [
                         'data' => [
