@@ -74,43 +74,4 @@ class Pesanan extends ResourceController
             }
         }
     }
-
-    public function cek_reg()
-    {
-        $hp =  $this->request->getVar('no_hp');
-        $nama = $this->request->getVar('nama_usaha');
-        $alamat = $this->request->getVar('alamat');
-        $model = new PesananModel();
-
-        $query = $model->query("SELECT company_id FROM m_user_company WHERE nama_usaha = ".$model->escape($nama)." AND no_telepon = ".$model->escape($hp)." AND alamat = ".$model->escape($alamat)."");
-
-        $id = $query->getRow('company_id');
-
-        if (!empty($id)) {
-            $subquery = $model->query("SELECT SCHEMA_NAME
-                                        FROM INFORMATION_SCHEMA.SCHEMATA
-                                        WHERE SCHEMA_NAME = '$id'");
-            if (!empty($subquery)) {
-                $respond = [
-                    'status' => 1,
-                ];
-                return $this->respondCreated($respond);
-            } else {
-                $respond = [
-                    'status' => 0,
-                ];
-                return $this->respondCreated($respond);
-            }
-            
-        } else {
-            $respond = [
-                'status' => 200,
-                'error' => false,
-                'messages' => "Sorry Not Found ",
-                'data' => '0'
-            ];
-            return $this->respondCreated($respond);
-        }
-        
-    }
 }

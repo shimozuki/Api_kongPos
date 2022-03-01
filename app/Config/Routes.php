@@ -34,6 +34,8 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
 $routes->add('/pesanan', 'Pesanan::transaksi');
+$routes->get('/version', 'AppVersionController::version');
+$routes->add('/cek_reg', 'Pesanan::cek_reg');
 /*
  * --------------------------------------------------------------------
  * Additional Routing
