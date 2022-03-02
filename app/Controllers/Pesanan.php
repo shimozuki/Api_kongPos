@@ -104,10 +104,7 @@ class Pesanan extends ResourceController
             
         } else {
             $respond = [
-                'status' => 200,
-                'error' => false,
-                'messages' => "Sorry Not Found ",
-                'data' => '0'
+               'status' => 2,
             ];
             return $this->respondCreated($respond);
         }
